@@ -1,0 +1,101 @@
+<!-- pages/dashboard.html - Snippet -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LogisHub - Smart Logistics Solutions for Southeast Asia">
+  <meta name="keywords" content="logistics, shipping, tracking, warehouse, Cambodia">
+  <meta property="og:title" content="LogisHub - Logistics Platform">
+  <meta property="og:description" content="Smart Logistics Solutions">
+  <meta property="og:image" content="./images/logo.svg">
+  <title>LogisHub - Smart Logistics Solutions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/tailwind.css">
+  <link rel="stylesheet" href="../src/output.css">
+</head>
+
+<body class="bg-white dark:bg-neutral-950 transition-colors duration-300">
+  <!-- Navbar -->
+  <script src="../js/components/navbar.js"></script>
+
+  <section class="py-8">
+    <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6 pl-10">Key Metrics</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Metric Card -->
+      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6 ml-10">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Total Shipments</p>
+            <p class="text-3xl font-bold text-neutral-900 dark:text-white mt-2">15.8K</p>
+          </div>
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- More metric cards... -->
+    </div>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Line Chart: Shipments Trend -->
+      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-4">Shipments Trend</h3>
+        <canvas id="trendChart"></canvas>
+      </div>
+
+      <!-- Bar Chart: Performance by Region -->
+      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-4">Performance by Region</h3>
+        <canvas id="performanceChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Trend Chart
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March', 'April'],
+        datasets: [{
+          label: 'Shipments',
+          data: [1200, 1450, 1680, 1920],
+          borderColor: '#0066CC',
+          backgroundColor: 'rgba(0, 102, 204, 0.1)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

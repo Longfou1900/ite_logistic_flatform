@@ -1,0 +1,195 @@
+<!-- pages/tracking.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track your shipments in real-time with LogisHub">
+  <meta name="keywords" content="track shipment, real-time tracking, logistics tracking">
+  <title>Track Your Shipment - LogisHub</title>
+  <link rel="stylesheet" href="../css/tailwind.css">
+  <link rel="stylesheet" href="../src/output.css">
+
+</head>
+<body class="bg-gray-50 dark:bg-neutral-950">
+  
+  <!-- Navbar (include same as home) -->
+  <nav class="fixed top-0 w-full bg-white dark:bg-neutral-900 shadow-lg z-50">
+    <!-- Same navbar code as home page -->
+  </nav>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- SECTION 1: Search & Filter -->
+      <section class="mb-12">
+        <div class="bg-white dark:bg-neutral-800 rounded-xl shadow-lg p-8">
+          <h1 class="text-4xl font-bold font-display text-neutral-900 dark:text-white mb-8">
+            Track Your Shipment
+          </h1>
+          
+          <!-- Search Form -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tracking ID</label>
+              <input type="text" id="trackingInput" placeholder="e.g., TRK001234" 
+                     class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-600 rounded-lg dark:bg-neutral-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+              <select id="statusFilter" class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-600 rounded-lg dark:bg-neutral-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                <option value="">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="In Transit">In Transit</option>
+                <option value="Out for Delivery">Out for Delivery</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button onclick="filterShipments()" class="w-full px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Shipments List -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Your Shipments</h2>
+        <div id="shipmentsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Shipments will be loaded here via JavaScript -->
+        </div>
+      </section>
+
+      <!-- SECTION 3: Map & Detailed View -->
+      <section id="detailSection" class="hidden bg-white dark:bg-neutral-800 rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Shipment Details</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          <!-- Left: Timeline -->
+          <div>
+            <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-6">Delivery Timeline</h3>
+            <div id="timeline" class="space-y-6">
+              <!-- Timeline will be generated here -->
+            </div>
+          </div>
+          
+          <!-- Right: Map -->
+          <div>
+            <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-6">Current Location</h3>
+            <div class="h-96 bg-gray-200 dark:bg-neutral-700 rounded-lg flex items-center justify-center">
+              <p class="text-gray-600 dark:text-gray-400">Map Integration (Google Maps/Leaflet)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-neutral-900 dark:bg-black text-white py-12">
+    <!-- Same footer code as home page -->
+  </footer>
+
+  <script src="../data/shipments.js"></script>
+  <script>
+    // Load shipments on page load
+    window.addEventListener('load', () => {
+      displayShipments(shipments);
+    });
+    
+    function displayShipments(data) {
+      const container = document.getElementById('shipmentsContainer');
+      container.innerHTML = '';
+      
+      data.forEach(shipment => {
+        const statusColor = {
+          'Pending': 'bg-yellow-100 text-warning',
+          'In Transit': 'bg-blue-100 text-primary',
+          'Out for Delivery': 'bg-purple-100 text-purple-600',
+          'Delivered': 'bg-green-100 text-success'
+        };
+        
+        const card = `
+          <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-all cursor-pointer" onclick="showDetails('${shipment.id}')">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="font-bold text-neutral-900 dark:text-white">ID: ${shipment.id}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">${shipment.sender}</p>
+              </div>
+              <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor[shipment.status]}">
+                ${shipment.status}
+              </span>
+            </div>
+            
+            <div class="mb-4">
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Progress</span>
+                <span class="text-sm font-bold text-primary">${shipment.progress}%</span>
+              </div>
+              <div class="w-full h-2 bg-gray-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width: ${shipment.progress}%"></div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+              <div>
+                <p class="text-gray-500 dark:text-gray-400">From</p>
+                <p class="font-semibold text-neutral-900 dark:text-white">${shipment.fromLocation}</p>
+              </div>
+              <div>
+                <p class="text-gray-500 dark:text-gray-400">To</p>
+                <p class="font-semibold text-neutral-900 dark:text-white">${shipment.toLocation}</p>
+              </div>
+            </div>
+            
+            <button class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold text-sm">
+              View Details
+            </button>
+          </div>
+        `;
+        
+        container.innerHTML += card;
+      });
+    }
+    
+    function filterShipments() {
+      const trackingId = document.getElementById('trackingInput').value.toUpperCase();
+      const status = document.getElementById('statusFilter').value;
+      
+      let filtered = shipments;
+      
+      if (trackingId) {
+        filtered = filtered.filter(s => s.id.includes(trackingId));
+      }
+      
+      if (status) {
+        filtered = filtered.filter(s => s.status === status);
+      }
+      
+      displayShipments(filtered);
+    }
+    
+    function showDetails(id) {
+      const shipment = shipments.find(s => s.id === id);
+      if (!shipment) return;
+      
+      // Build timeline
+      const timelineHTML = shipment.timeline.map((event, index) => `
+        <div class="relative pl-6">
+          <div class="absolute left-0 top-1 w-3 h-3 rounded-full ${index === shipment.timeline.length - 1 ? 'bg-success' : 'bg-primary'}"></div>
+          <h4 class="font-semibold text-neutral-900 dark:text-white">${event.status}</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-400">${event.date}</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">${event.location}</p>
+        </div>
+      `).join('');
+      
+      document.getElementById('timeline').innerHTML = timelineHTML;
+      document.getElementById('detailSection').classList.remove('hidden');
+      document.getElementById('detailSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+#### install tailwindcss 4.0 version cli
++ create package.json
+and write this:
+    {
+        "dependencies": {
+            "@tailwindcss/cli": "^4.2.2",
+            "tailwindcss": "^4.2.2"
+        }
+    }
+
+and then run command
+- npm install tailwindcss @tailwindcss/cli
+
++ src/input.css
+- @import "tailwindcss";
+
++ run command
+- npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
+
++ write script for shorthand run in file package.json
+- "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+  },
+
++ then run
+- npm run dev
+
+
+
+
+
+
+
