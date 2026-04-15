@@ -3,7 +3,7 @@ node_modules/
 
 # Production / Build outputs
 dist/
-output.css
+# output.css
 
 # Environment Secrets
 .env
@@ -12,3 +12,6 @@ output.css
 # System files
 .DS_Store
 Thumbs.db
+
+# persional files
+note.txt
