@@ -1,12 +1,12 @@
 # 🏗️ Folder Structure
 ## logistics-platform/
-- ├── index.html
-#### ├── css/
-#### │   ├── tailwind.css
-#### │   └── animations.css
-#### ├── js/
-#### │   ├── main.js
-#### │   ├── dark-mode.js
+###### ├── index.html
+###### ├── css/
+###### │   ├── tailwind.css
+###### │   └── animations.css
+###### ├── js/
+###### │   ├── main.js
+###### │   ├── dark-mode.js
 #### │   └── tracking.js
 #### ├── pages/
 #### │   ├── tracking.html
