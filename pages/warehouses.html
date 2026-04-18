@@ -1,4 +1,4 @@
-<!-- pages/dashboard.html - Snippet -->
+<!-- pages/warehouses.html - Snippet -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +9,14 @@
     <meta name="keywords" content="logistics, shipping, tracking, warehouse, Cambodia">
     <meta property="og:title" content="DolNow - Logistics Platform">
     <meta property="og:description" content="Smart Logistics Solutions">
-    <meta property="og:image" content="./images/gif/globus.gif">
+    <meta property="og:image" content="../images/gif/globus.gif">
     <title>DolNow - Warehouses</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../css/tailwind.css">
+
     <link rel="stylesheet" href="../src/output.css">
 </head>
 
@@ -25,11 +25,9 @@
     <script src="../js/components/navbar.js"></script>
 
     <!-- main -->
-    <div class="py-50">
-        <div class="justify-center text-center text-9xl ">
-           Ware Houses
-        </div>
-    </div>
+    <div id="warehouseGrid" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3 p-10"></div>
+
+    <script type="module" src="../js/components/warehouses.js"></script>
 
 
     <!-- Footer -->

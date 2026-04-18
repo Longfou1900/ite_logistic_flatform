@@ -32,4 +32,14 @@
   }
 }
 
+@keyframes shimmer {
+    100% {
+        left: 100%;
+    }
+}
+
+.animate-\[shimmer_2s_infinite\] {
+    animation: shimmer 2s infinite;
+}
+
 /* src/input.css */

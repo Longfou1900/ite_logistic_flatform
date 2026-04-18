@@ -1,3 +1,4 @@
+// data/warehouses.js
 export const warehouses = [
     {
         id: 1,

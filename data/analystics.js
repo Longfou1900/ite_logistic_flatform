@@ -1,3 +1,4 @@
+// data/analystics.js
 export const analystics = {
   totalShipaments: 15830,
   onTimeDeliveerRate: 98.5,

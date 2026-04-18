@@ -1,0 +1,294 @@
+<!-- pages/about.html - Snippet -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DolNow - Smart Logistics Solutions for Southeast Asia">
+  <meta name="keywords" content="logistics, shipping, tracking, warehouse, Cambodia">
+  <meta property="og:title" content="DolNow - Logistics Platform">
+  <meta property="og:description" content="Smart Logistics Solutions">
+  <meta property="og:image" content="../images/gif/globus.gif">
+  <title>DolNow - Login & Sign Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../src/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --neon-cyan: #00f5ff;
+      --neon-purple: #c026d3;
+      --neon-pink: #ec4899;
+    }
+
+    .phone-frame {
+      box-shadow: 0 0 60px -10px rgba(0, 245, 255, 0.4),
+        inset 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 20px var(--neon-cyan),
+        0 0 40px var(--neon-cyan),
+        0 0 60px rgba(0, 245, 255, 0.3);
+    }
+
+    .glow-purple {
+      box-shadow: 0 0 20px var(--neon-purple),
+        0 0 40px var(--neon-purple);
+    }
+
+    .input-glow {
+      transition: all 0.3s ease;
+    }
+
+    .input-glow:focus {
+      box-shadow: 0 0 15px var(--neon-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    .neon-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .neon-button::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 40%;
+      height: 400%;
+      background: linear-gradient(120deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent);
+      transform: skewX(-25deg);
+      animation: shimmer 4s infinite linear;
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(400%);
+      }
+    }
+
+    .processing {
+      animation: pulse-glow 1.5s infinite alternate;
+    }
+
+    .error {
+      animation: error-shake 0.4s linear;
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-neutral-950 transition-colors duration-300">
+  <!-- Navbar -->
+  <script src="../js/components/navbar.js"></script>
+
+  <!-- main -->
+  <div class="flex justify-center items-center">
+    <div class="max-w-150 bg-neutral-900 rounded-[52px] overflow-hidden border border-neutral-800 my-20">
+      <!-- Top Hero -->
+      <div class="h-60 bg-linear-to-br from-purple-900 via-cyan-900 to-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(192,38,211,0.4),transparent)]"></div>
+        <img src="https://picsum.photos/id/1015/800/600"
+          class="w-full h-full object-cover opacity-70 mix-blend-overlay">
+
+        <!-- Floating Logo -->
+        <div
+          class="absolute top-8 left-1/2 -translate-x-1/2 w-40 h-10 rounded-2xl bg-linear-to-br from-cyan-400 to-purple-600 flex items-center justify-center shadow-2xl glow-cyan">
+          <span class="text-3xl font-bold text-white tracking-tighter">WELCOME</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="-mt-35 bg-neutral-900 rounded-t-[40px] relative z-10 px-8 pt-8 pb-12">
+
+        <!-- Tabs -->
+        <div class="flex justify-center gap-8 mb-8">
+          <button id="loginTab"
+            class="tab-btn text-lg font-medium text-neutral-400 hover:text-white transition-colors border-b-2 border-transparent pb-1">
+            Sign In
+          </button>
+          <button id="signupTab" class="tab-btn text-lg font-medium text-white border-b-2 border-cyan-400 pb-1">
+            Sign Up
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form id="authForm" class="space-y-7">
+
+          <!-- Phone -->
+          <div class="relative">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <input type="tel" placeholder="Phone Number"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+          </div>
+
+          <!-- Password -->
+          <div class="relative">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="password" placeholder="Password"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <button type="button" onclick="togglePassword()"
+              class="absolute right-5 top-4 text-neutral-400 hover:text-cyan-400">
+              👁
+            </button>
+          </div>
+
+          <!-- Confirm Password -->
+          <div id="confirmField" class="relative">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <button type="button" onclick="toggleConfirmPassword()"
+              class="absolute right-5 top-4 text-neutral-400 hover:text-cyan-400">
+              👁
+            </button>
+          </div>
+
+          <!-- Recovery Hint -->
+          <div id="recoveryField">
+            <input type="text" maxlength="4" placeholder="Recovery Hint (4 chars)"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-5 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <p class="text-xs text-neutral-400 mt-2 px-1">
+              This hint will help you recover your password
+            </p>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submitBtn"
+            class="neon-button w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-5 rounded-3xl font-semibold text-lg tracking-widest glow-cyan hover:scale-[1.03] active:scale-[0.98]">
+            CREATE ACCOUNT
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 my-8">
+          <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent"></div>
+          <span class="text-neutral-500 text-sm font-medium">OR</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent"></div>
+        </div>
+
+        <!-- Social Login -->
+        <div class="flex justify-center gap-6">
+          <button
+            class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl glow-purple">
+            𝕏
+          </button>
+          <button
+            class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl text-blue-400">
+            f
+          </button>
+          <button
+            class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl">
+            G
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <script src="../js/components/footer.js"></script>
+
+  <script>
+    // Tailwind Script
+    tailwind.config = {
+      content: [],
+      theme: {
+        extend: {}
+      }
+    }
+
+    const loginTab = document.getElementById('loginTab')
+    const signupTab = document.getElementById('signupTab')
+    const confirmField = document.getElementById('confirmField')
+    const recoveryField = document.getElementById('recoveryField')
+    const submitBtn = document.getElementById('submitBtn')
+
+    function switchToLogin() {
+      confirmField.style.display = 'none'
+      recoveryField.style.display = 'none'
+      submitBtn.textContent = 'SIGN IN'
+      loginTab.classList.add('text-white', 'border-b-2', 'border-cyan-400')
+      signupTab.classList.remove('text-white', 'border-b-2', 'border-cyan-400')
+    }
+
+    function switchToSignup() {
+      confirmField.style.display = 'block'
+      recoveryField.style.display = 'block'
+      submitBtn.textContent = 'CREATE ACCOUNT'
+      signupTab.classList.add('text-white', 'border-b-2', 'border-cyan-400')
+      loginTab.classList.remove('text-white', 'border-b-2', 'border-cyan-400')
+    }
+
+    loginTab.addEventListener('click', switchToLogin)
+    signupTab.addEventListener('click', switchToSignup)
+
+    // Password toggle
+    function togglePassword() {
+      const pwd = document.getElementById('password')
+      pwd.type = pwd.type === 'password' ? 'text' : 'password'
+    }
+
+    function toggleConfirmPassword() {
+      const pwd = document.getElementById('confirmPassword')
+      pwd.type = pwd.type === 'password' ? 'text' : 'password'
+    }
+
+    // Form submission demo with processing & error
+    document.getElementById('authForm').addEventListener('submit', function (e) {
+      e.preventDefault()
+
+      const btn = document.getElementById('submitBtn')
+      const originalText = btn.textContent
+
+      // Processing state
+      btn.classList.add('processing')
+      btn.innerHTML = `
+        <span class="inline-flex items-center gap-3">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          PROCESSING...
+        </span>
+      `
+      setTimeout(() => {
+        // Simulate error
+        btn.classList.remove('processing')
+        btn.classList.add('error', 'bg-red-600', 'from-red-500', 'to-rose-600')
+        btn.innerHTML = `
+          <span class="inline-flex items-center gap-3">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            ERROR: FAILED
+          </span>
+        `
+
+        setTimeout(() => {
+          btn.classList.remove('error', 'bg-red-600', 'from-red-500', 'to-rose-600')
+          btn.textContent = originalText
+        }, 2200)
+      }, 1800)
+    })
+
+    // Initial state
+    switchToSignup()
+  </script>
+
+</body>
+
+</html>

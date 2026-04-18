@@ -9,15 +9,16 @@
   <meta name="keywords" content="logistics, shipping, tracking, warehouse, Cambodia">
   <meta property="og:title" content="DolNow - Logistics Platform">
   <meta property="og:description" content="Smart Logistics Solutions">
-  <meta property="og:image" content="./images/gif/globus.gif">
+  <meta property="og:image" content="../images/gif/globus.gif">
   <title>DolNow - Smart Logistics Solutions</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../css/tailwind.css">
+
   <link rel="stylesheet" href="../src/output.css">
+  <link rel="stylesheet" href="../css/animations.css">
 </head>
 
 <body class="bg-white dark:bg-neutral-950 transition-colors duration-300">
@@ -25,75 +26,438 @@
   <script src="../js/components/navbar.js"></script>
 
   <!-- main -->
-  <section class="py-8">
-    <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6 pl-10">Key Metrics</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title">Dashboard</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="tabs">
+          <button class="tab active" onclick="swTab(this)">Today</button>
+          <button class="tab" onclick="swTab(this)">Last Week</button>
+          <button class="tab" onclick="swTab(this)">Last Month</button>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn-outline">Filter ▾</button>
+          <button class="btn-outline">Clear</button>
+        </div>
+      </div>
+    </div>
 
-      <!-- Metric Card -->
-      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6 ml-10">
-        <div class="flex items-center justify-between">
+    <!-- METRIC CARDS -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div>
+          <div class="metric-label">Total Shipments</div>
+          <div class="metric-value" style="color:var(--accent);">15.8K</div>
+          <div class="metric-badge badge-up">▲ 12%</div>
+        </div>
+        <div class="metric-icon bg-[rgba(79,124,255,0.12)] text-(--accent)">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
+            <rect x="9" y="11" width="14" height="10" rx="2" />
+            <circle cx="12" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+          </svg>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div>
+          <div class="metric-label">Total Revenue</div>
+          <div class="metric-value" style="color:var(--green);">$2.4M</div>
+          <div class="metric-badge badge-up">▲ 15%</div>
+        </div>
+        <div class="metric-icon" style="background:rgba(34,211,160,0.12);color:var(--green);">
+          <svg class="icon" viewBox="0 0 24 24">
+            <line x1="12" y1="1" x2="12" y2="23" />
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div>
+          <div class="metric-label">On-Time Delivery</div>
+          <div class="metric-value" style="color:var(--cyan);">94.2%</div>
+          <div class="metric-badge badge-up">▲ 3%</div>
+        </div>
+        <div class="metric-icon" style="background:rgba(56,201,240,0.12);color:var(--cyan);">
+          <svg class="icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div>
+          <div class="metric-label">Active Customers</div>
+          <div class="metric-value" style="color:var(--amber);">1,284</div>
+          <div class="metric-badge badge-dn">▼ 4%</div>
+        </div>
+        <div class="metric-icon" style="background:rgba(245,166,35,0.12);color:var(--amber);">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 1: Line chart + Region bars -->
+    <div class="charts-row r2">
+      <div class="card">
+        <div class="card-header">
           <div>
-            <p class="text-gray-600 dark:text-gray-400 text-sm">Total Shipments</p>
-            <p class="text-3xl font-bold text-neutral-900 dark:text-white mt-2">15.8K</p>
+            <div class="card-title">Shipments Trend</div>
+            <div class="card-sub">Jan – Apr 2025</div>
           </div>
-          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+          <div class="chart-tabs">
+            <button class="ctab active">Daily</button>
+            <button class="ctab">Weekly</button>
+            <button class="ctab">Monthly</button>
+          </div>
+        </div>
+        <div class="cw">
+          <canvas id="trendChart" role="img" aria-label="Shipments trend Jan–Apr 2025">Shipments: Jan 1200, Feb 1450,
+            Mar 1680, Apr 1920.</canvas>
+        </div>
+        <div class="legend">
+          <span class="li"><span class="ld" style="background:#4f7cff;"></span>Shipments</span>
+          <span class="li"><span class="ld" style="background:#22d3a0;border-radius:50%;"></span>Delivered</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Performance by Region</div>
+          <span class="view-link">View All</span>
+        </div>
+        <div class="rl">
+          <div>
+            <div class="rh"><span>Phnom Penh</span><span class="rv" style="color:var(--accent);">4,820</span></div>
+            <div class="rt">
+              <div class="rf" style="width:92%;background:var(--accent);"></div>
+            </div>
+          </div>
+          <div>
+            <div class="rh"><span>Siem Reap</span><span class="rv" style="color:var(--green);">3,210</span></div>
+            <div class="rt">
+              <div class="rf" style="width:68%;background:var(--green);"></div>
+            </div>
+          </div>
+          <div>
+            <div class="rh"><span>Battambang</span><span class="rv" style="color:var(--cyan);">2,540</span></div>
+            <div class="rt">
+              <div class="rf" style="width:52%;background:var(--cyan);"></div>
+            </div>
+          </div>
+          <div>
+            <div class="rh"><span>Kampong Cham</span><span class="rv" style="color:var(--purple);">1,890</span></div>
+            <div class="rt">
+              <div class="rf" style="width:38%;background:var(--purple);"></div>
+            </div>
+          </div>
+          <div>
+            <div class="rh"><span>Sihanoukville</span><span class="rv" style="color:var(--amber);">1,340</span></div>
+            <div class="rt">
+              <div class="rf" style="width:27%;background:var(--amber);"></div>
+            </div>
+          </div>
+          <div>
+            <div class="rh"><span>Other</span><span class="rv" style="color:var(--muted);">2,000</span></div>
+            <div class="rt">
+              <div class="rf" style="width:40%;background:var(--surface2);border:1px solid var(--border);"></div>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- More metric cards... -->
     </div>
-  </section>
 
-  <!-- Charts Section -->
-  <section class="py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-      <!-- Line Chart: Shipments Trend -->
-      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6">
-        <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-4">Shipments Trend</h3>
-        <canvas id="trendChart"></canvas>
+    <!-- ROW 2: Bar + two Donuts -->
+    <div class="charts-row r3">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Revenue Growth</div>
+            <div class="card-sub">Weekly view</div>
+          </div>
+          <div class="chart-tabs">
+            <button class="ctab">Day</button>
+            <button class="ctab active">Weekly</button>
+            <button class="ctab">Monthly</button>
+          </div>
+        </div>
+        <div class="cw">
+          <canvas id="revenueChart" role="img" aria-label="Weekly revenue bar chart">Revenue: Sun $32K, Mon $51K, Tue
+            $91K, Wed $44K, Thu $58K, Fri $53K, Sat $27K.</canvas>
+        </div>
+        <div class="legend" style="margin-top:12px;">
+          <span class="li"><span class="ld" style="background:#4f7cff;"></span>Revenue</span>
+          <span class="li"><span class="ld" style="background:#22d3a0;border-radius:50%;"></span>Trend</span>
+        </div>
       </div>
-
-      <!-- Bar Chart: Performance by Region -->
-      <div class="bg-white dark:bg-neutral-800 rounded-lg shadow p-6">
-        <h3 class="text-xl font-bold text-neutral-900 dark:text-white mb-4">Performance by Region</h3>
-        <canvas id="performanceChart"></canvas>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Shipment Types</div>
+          <span class="view-link">Details</span>
+        </div>
+        <div class="cw-sm">
+          <canvas id="typeChart" role="img" aria-label="Shipment types donut chart">Standard 40%, Express 30%, Freight
+            17%, Same-Day 13%.</canvas>
+        </div>
+        <div class="dl">
+          <div class="dl-row">
+            <div class="dl-left">
+              <div class="dl-dot" style="background:#4f7cff;"></div><span>Standard</span>
+            </div>
+            <div class="flex items-center gap-2 ">
+              <div class="w-30" class="dl-track">
+                <div class="dl-fill w-[80%] bg-[#4f7cff]"></div>
+              </div><span class="dl-pct" style="color:var(--accent);">40%</span>
+            </div>
+          </div>
+          <div class="dl-row">
+            <div class="dl-left">
+              <div class="dl-dot" style="background:#22d3a0;"></div><span>Express</span>
+            </div>
+            <div class="flex items-center gap-2 ">
+              <div class="w-30" class="dl-track">
+                <div class="dl-fill w-[60%] bg-[#22d3a0]"></div>
+              </div><span class="dl-pct" style="color:var(--green);">30%</span>
+            </div>
+          </div>
+          <div class="dl-row">
+            <div class="dl-left">
+              <div class="dl-dot" style="background:#38c9f0;"></div><span>Freight</span>
+            </div>
+            <div class="flex items-center gap-2 ">
+              <div class="w-30" class="dl-track">
+                <div class="dl-fill w-[34%] bg-[#38c9f0]"></div>
+              </div><span class="dl-pct" style="color:var(--cyan);">17%</span>
+            </div>
+          </div>
+          <div class="dl-row">
+            <div class="dl-left">
+              <div class="dl-dot" style="background:#a78bfa;"></div><span>Same-Day</span>
+            </div>
+            <div class="flex items-center gap-2 ">
+              <div class="w-30" class="dl-track">
+                <div class="dl-fill w-[26%] bg-[#a78bfa]"></div>
+              </div><span class="dl-pct" style="color:var(--purple);">13%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Delivery Status</div>
+          <span class="view-link">Details</span>
+        </div>
+        <div class="cw-sm">
+          <canvas id="statusChart" role="img" aria-label="Delivery status donut chart">Delivered 68%, In Transit 21%,
+            Pending 8%, Failed 3%.</canvas>
+        </div>
+        <div class="stat-row">
+          <div>
+            <div class="sr-val" style="color:var(--green);">68%</div>
+            <div class="sr-lbl">Delivered</div>
+          </div>
+          <div>
+            <div class="sr-val" style="color:var(--cyan);">21%</div>
+            <div class="sr-lbl">In Transit</div>
+          </div>
+          <div>
+            <div class="sr-val" style="color:var(--amber);">8%</div>
+            <div class="sr-lbl">Pending</div>
+          </div>
+          <div>
+            <div class="sr-val" style="color:var(--red);">3%</div>
+            <div class="sr-lbl">Failed</div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
+    <!-- BOTTOM ROW: Table + Feed -->
+    <div class="bottom-row">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Last Orders</div>
+            <div class="card-sub">Recent shipment records</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-outline">Weekly ▾</button>
+            <span class="view-link">View All</span>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="dt">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Date</th>
+                <th>Destination</th>
+                <th>Status</th>
+                <th>Tracking</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">#DN-00521</td>
+                <td>Electronics Pkg</td>
+                <td>19 Apr 2025</td>
+                <td>Siem Reap</td>
+                <td><span class="pill p-a">Pending</span></td>
+                <td class="mono">SR0021P</td>
+              </tr>
+              <tr>
+                <td class="mono">#DN-00520</td>
+                <td>Clothing Bulk</td>
+                <td>18 Apr 2025</td>
+                <td>Battambang</td>
+                <td><span class="pill p-g">Delivered</span></td>
+                <td class="mono">BB1132G</td>
+              </tr>
+              <tr>
+                <td class="mono">#DN-00519</td>
+                <td>Medical Supplies</td>
+                <td>18 Apr 2025</td>
+                <td>Phnom Penh</td>
+                <td><span class="pill p-b">In Transit</span></td>
+                <td class="mono">PP0847T</td>
+              </tr>
+              <tr>
+                <td class="mono">#DN-00518</td>
+                <td>Food &amp; Beverage</td>
+                <td>17 Apr 2025</td>
+                <td>Kampong Cham</td>
+                <td><span class="pill p-g">Delivered</span></td>
+                <td class="mono">KC0091D</td>
+              </tr>
+              <tr>
+                <td class="mono">#DN-00517</td>
+                <td>Auto Parts</td>
+                <td>17 Apr 2025</td>
+                <td>Sihanoukville</td>
+                <td><span class="pill p-r">Failed</span></td>
+                <td class="mono">SV0034F</td>
+              </tr>
+              <tr>
+                <td class="mono">#DN-00516</td>
+                <td>Furniture Set</td>
+                <td>16 Apr 2025</td>
+                <td>Phnom Penh</td>
+                <td><span class="pill p-b">In Transit</span></td>
+                <td class="mono">PP0762T</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Activity</div>
+          <span class="view-link">View All</span>
+        </div>
+        <div class="feed">
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(34,211,160,0.12);">✅</div>
+            <div style="flex:1;">
+              <div class="fi-title">Shipment #DN-00520 delivered</div>
+              <div class="fi-sub">Battambang — Robert K. confirmed</div>
+            </div>
+            <div class="fi-time">2m ago</div>
+          </div>
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(79,124,255,0.12);">🚚</div>
+            <div style="flex:1;">
+              <div class="fi-title">3 new shipments dispatched</div>
+              <div class="fi-sub">Warehouse A → Phnom Penh hub</div>
+            </div>
+            <div class="fi-time">14m ago</div>
+          </div>
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(240,82,82,0.12);">⚠️</div>
+            <div style="flex:1;">
+              <div class="fi-title">Delivery failed — #DN-00517</div>
+              <div class="fi-sub">Address not found in Sihanoukville</div>
+            </div>
+            <div class="fi-time">31m ago</div>
+          </div>
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(167,139,250,0.12);">📦</div>
+            <div style="flex:1;">
+              <div class="fi-title">Warehouse B at 87% capacity</div>
+              <div class="fi-sub">Stock alert triggered</div>
+            </div>
+            <div class="fi-time">1h ago</div>
+          </div>
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(245,166,35,0.12);">⏳</div>
+            <div style="flex:1;">
+              <div class="fi-title">Route delay — Siem Reap</div>
+              <div class="fi-sub">ETA pushed +40 min</div>
+            </div>
+            <div class="fi-time">2h ago</div>
+          </div>
+          <div class="fi">
+            <div class="fi-icon" style="background:rgba(56,201,240,0.12);">🔄</div>
+            <div style="flex:1;">
+              <div class="fi-title">System sync completed</div>
+              <div class="fi-sub">All warehouses reporting correctly</div>
+            </div>
+            <div class="fi-time">3h ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:40px;"></div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    // Trend Chart
-    const trendCtx = document.getElementById('trendChart').getContext('2d');
-    new Chart(trendCtx, {
+    function swTab(el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    const gc = 'rgba(255,255,255,0.05)';
+    const tc = '#7b7f96';
+    const sf = { family: 'Sora', size: 12 };
+
+    new Chart(document.getElementById('trendChart'), {
       type: 'line',
       data: {
-        labels: ['January', 'February', 'March', 'April'],
-        datasets: [{
-          label: 'Shipments',
-          data: [1200, 1450, 1680, 1920],
-          borderColor: '#0066CC',
-          backgroundColor: 'rgba(0, 102, 204, 0.1)',
-          borderWidth: 2,
-          tension: 0.4,
-          fill: true
-        }]
+        labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+        datasets: [
+          { label: 'Shipments', data: [1200, 1450, 1680, 1920], borderColor: '#4f7cff', backgroundColor: 'rgba(79,124,255,0.08)', borderWidth: 2.5, tension: 0.4, fill: true, pointBackgroundColor: '#4f7cff', pointRadius: 5, pointHoverRadius: 7 },
+          { label: 'Delivered', data: [1100, 1340, 1580, 1800], borderColor: '#22d3a0', backgroundColor: 'transparent', borderWidth: 2, tension: 0.4, fill: false, pointBackgroundColor: '#22d3a0', pointRadius: 4, pointHoverRadius: 6, borderDash: [5, 4] }
+        ]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { grid: { color: gc }, ticks: { color: tc, font: sf } }, y: { grid: { color: gc }, ticks: { color: tc, font: sf }, beginAtZero: false } } }
+    });
+
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        datasets: [
+          { label: 'Revenue ($K)', data: [32, 51, 91, 44, 58, 53, 27], backgroundColor: 'rgba(79,124,255,0.5)', borderColor: '#4f7cff', borderWidth: 1.5, borderRadius: 6, borderSkipped: false },
+          { type: 'line', label: 'Trend', data: [32, 51, 91, 44, 58, 53, 27], borderColor: '#22d3a0', backgroundColor: 'transparent', borderWidth: 2, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#22d3a0' }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `$${ctx.raw}K` } } }, scales: { x: { grid: { color: gc }, ticks: { color: tc, font: { family: 'Sora', size: 11 }, autoSkip: false } }, y: { grid: { color: gc }, ticks: { color: tc, font: { family: 'Sora', size: 11 }, callback: v => `$${v}K` }, beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('typeChart'), {
+      type: 'doughnut',
+      data: { labels: ['Standard', 'Express', 'Freight', 'Same-Day'], datasets: [{ data: [40, 30, 17, 13], backgroundColor: ['#4f7cff', '#22d3a0', '#38c9f0', '#a78bfa'], borderColor: '#13141c', borderWidth: 3, hoverOffset: 8 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } } } }
+    });
+
+    new Chart(document.getElementById('statusChart'), {
+      type: 'doughnut',
+      data: { labels: ['Delivered', 'In Transit', 'Pending', 'Failed'], datasets: [{ data: [68, 21, 8, 3], backgroundColor: ['#22d3a0', '#38c9f0', '#f5a623', '#f05252'], borderColor: '#13141c', borderWidth: 3, hoverOffset: 8 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } } } }
     });
   </script>
 

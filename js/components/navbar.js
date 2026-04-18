@@ -13,7 +13,7 @@ function createNavbar() {
   const pagesPath =  "pages/";
 
   const navbarHTML = `
-        <nav class="fixed top-0 w-full bg-white dark:bg-neutral-900 shadow-lg z-50 transition-colors duration-300">
+        <nav class="fixed top-0 w-full bg-white/10  dark:bg-neutral-700/30 shadow-lg z-50 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
 
@@ -22,41 +22,46 @@ function createNavbar() {
                         <a href="${rootPath}index.html" class="flex items-center space-x-2 text-xl font-bold text-gray-800 dark:text-gray-200">
                             <img id="sunLogo" src="${rootPath}images/logos/sun-logo.png" alt="DolNav Logo" class="w-14 h-14">
                             <img id="nightLogo" src="${rootPath}images/logos/night-logo.png" alt="DolNav Logo" class="w-14 h-14 hidden">
-                            <span class="font-bold text-xl text-to-secondary dark:text-white">DolNav</span>
+                            <span class="font-bold text-xl text-green-300 dark:text-white">DolNav</span>
                         </a>
                     </div>
 
                     <!-- Navigation Menu -->
-                    <div class="hidden md:flex space-x-8">
+                    <div class="hidden md:flex space-x-8 text-green-300">
                         <a href="${rootPath}index.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-primary transition">Home</a>
+                            class=" dark:text-blue-400 hover:text-primary dark:hover:text-green-400 transition">Home</a>
                         <a href="${rootPath}${pagesPath}tracking.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-primary transition">Track</a>
+                            class=" dark:text-blue-400 hover:text-primary dark:hover:text-green-400 transition">Track</a>
                         <a href="${rootPath}${pagesPath}warehouses.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-primary transition">Warehouses</a>
+                            class=" dark:text-blue-400 hover:text-primary dark:hover:text-green-400 transition">Warehouses</a>
                         <a href="${rootPath}${pagesPath}dashboard.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-primary transition">Dashboard</a>
+                            class=" dark:text-blue-400 hover:text-primary dark:hover:text-green-400 transition">Dashboard</a>
                         <a href="${rootPath}${pagesPath}about.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-primary transition">About</a>
+                            class=" dark:text-blue-400 hover:text-primary dark:hover:text-green-400 transition">About</a>
                     </div>
 
                     <div class="flex items-center space-x-4 ">
                         <!-- Dark Mode Toggle -->
-                        <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-neutral-800 cursor-pointer">
-                            <svg id="sunIcon" class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10.5 1.5H9.5V.5h1v1zm0 16H9.5v1h1v-1zm5.657-2.343l.707.707-.707-.707zm-11.314 0l-.707.707.707-.707zM17.5 9.5v1h1v-1h-1zM1.5 9.5v1h1v-1h-1zm10-6a4 4 0 100 8 4 4 0 000-8zm0 7a3 3 0 110-6 3 3 0 010 6z" />
-                            </svg>
+                        <button id="darkModeToggle" class="p-2 rounded-full bg-green-500/10 dark:bg-blue-400/10 cursor-pointer">
+                            <img id="sunIcon" src="${rootPath}images/icons/sun icon.svg" class="w-4 h-4 invert\" alt="Light Mode Icon">
+                            </img>
                             <svg id="moonIcon" class="w-5 h-5 text-gray-400 hidden" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                             </svg>
                         </button>
 
-                        <button class="bg-green-200 cursor-pointer rounded-xl font-medium py-1 px-5 hover:bg-green-400 hover:text-white">
-                            Login
+                        <button class="relative group overflow-hidden text-[85%] px-4 py-1 rounded-xl text-white transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
+                            <div class="absolute inset-0 bg-emerald-500/40 dark:bg-blue-600/40 backdrop-blur-md rounded-xl z-0"></div>
+                            
+                            <div class="absolute inset-0 bg-linear-to-tr from-emerald-600/40 via-green-300/80 dark:via-blue-500/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                            
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity z-0">
+                                <div class="absolute top-0 -left-full w-full h-full bg-linear-to-r from-transparent via-green-400 dark:via-blue-400 to-transparent skew-x-12 animate-[shimmer_2s_infinite]"></div>
+                            </div>
+                            <span class="relative z-10 tracking-wide font-bold"><a href="${rootPath}${pagesPath}Login-signup.html">Login</a></span>
                         </button>
 
-                        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 focus:outline-none">
+                        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-gray-400 dark:text-gray-300 hover:bg-gray-700/70 dark:hover:bg-neutral-800 focus:outline-none">
                             <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
