@@ -1,6 +1,6 @@
 # 🏗️ Folder Structure
 ## logistics-platform/
-#### ├── index.html
+- ├── index.html
 #### ├── css/
 #### │   ├── tailwind.css
 #### │   └── animations.css
