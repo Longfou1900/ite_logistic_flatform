@@ -20,8 +20,8 @@ function createNavbar() {
                     <!-- Logo -->
                     <div class="flex items-center space-x-2 cursor-pointer">
                         <a href="${rootPath}index.html" class="flex items-center space-x-2 text-xl font-bold text-gray-800 dark:text-gray-200">
-                            <img id="sunLogo" src="${rootPath}images/logos/sun-logo.png" alt="DolNav Logo" class="w-14 h-14">
-                            <img id="nightLogo" src="${rootPath}images/logos/night-logo.png" alt="DolNav Logo" class="w-14 h-14 hidden">
+                            <img id="sunLogo" src="${rootPath}images/logos/sun-logo.png" alt="DolNav Logo" class="w-16 h-16">
+                            <img id="nightLogo" src="${rootPath}images/logos/night-logo.png" alt="DolNav Logo" class="w-16 h-16 hidden">
                             <span class="font-bold text-xl text-green-300 dark:text-white">DolNav</span>
                         </a>
                     </div>
@@ -79,7 +79,7 @@ function createNavbar() {
                 <a href="${rootPath}${pagesPath}dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-neutral-800 transition">Dashboard</a>
                 <a href="${rootPath}${pagesPath}about.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-neutral-800 transition">About</a>
                 <button class="w-full mt-4 bg-green-200 cursor-pointer rounded-xl font-medium py-2 px-5 hover:bg-green-400 hover:text-white transition text-center sm:hidden">
-                    Login
+                    <a href="${rootPath}${pagesPath}Login-signup.html">Login</a>
                 </button>
             </div>
         </nav>

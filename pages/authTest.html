@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DolNow - Login & Sign Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --neon-cyan: #00f5ff;
+      --neon-purple: #c026d3;
+      --neon-pink: #ec4899;
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 60px rgba(0, 245, 255, 0.3);
+    }
+
+    .glow-purple {
+      box-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-purple);
+    }
+
+    .input-glow {
+      transition: all 0.3s ease;
+    }
+
+    .input-glow:focus {
+      box-shadow: 0 0 15px var(--neon-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    .neon-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .neon-button::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 40%;
+      height: 400%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transform: skewX(-25deg);
+      animation: shimmer 4s infinite linear;
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(400%); }
+    }
+
+    .processing {
+      animation: pulse-glow 1.5s infinite alternate;
+    }
+
+    .error {
+      animation: error-shake 0.4s linear;
+    }
+
+    @keyframes error-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .success {
+      animation: success-scale 0.4s ease;
+    }
+
+    @keyframes success-scale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .tab-btn {
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn.active {
+      color: #00f5ff;
+      border-bottom-color: #00f5ff;
+      border-bottom-width: 2px;
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-neutral-950 transition-colors duration-300">
+  
+  <!-- Navbar -->
+  <script src="../js/components/navbar.js"></script>
+
+  <!-- Main Content -->
+  <div class="flex justify-center items-center">
+    <div class="max-w-[95%] rounded-[52px] overflow-hidden my-20">
+      
+      <!-- Top Hero -->
+      <div class="h-60 bg-gradient-to-br from-green-500 via-blue-400 to-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(192,38,211,0.4),transparent)]"></div>
+        <img src="../images/background/image.png" alt="Background" class="w-full h-full object-cover opacity-70 mix-blend-overlay">
+
+        <!-- Floating Logo -->
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 w-40 h-10 rounded-2xl bg-gradient-to-br from-green-400 to-blue-600/40 flex items-center justify-center shadow-2xl glow-cyan">
+          <span class="text-3xl font-bold text-white/90 tracking-tighter">WELCOME</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="-mt-35 bg-black dark:bg-white rounded-t-[40px] relative z-10 px-8 pt-8 pb-12">
+
+        <!-- Tabs -->
+        <div class="flex justify-center gap-8 mb-8">
+          <button id="loginTab" class="tab-btn text-lg font-medium text-neutral-400 dark:text-black hover:text-white dark:hover:text-black transition-colors border-b-2 border-transparent pb-1">
+            Sign In
+          </button>
+          <button id="signupTab" class="tab-btn active text-lg font-medium dark:text-black text-white border-b-2 border-cyan-400 pb-1">
+            Sign Up
+          </button>
+        </div>
+
+        <!-- Message Box -->
+        <div id="messageBox" class="mb-4 p-4 rounded-lg text-center hidden">
+          <span id="messageText"></span>
+        </div>
+
+        <!-- Form -->
+        <form id="authForm" class="space-y-7" novalidate>
+
+          <!-- Email -->
+          <div class="relative">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <input type="email" id="email" placeholder="Email Address"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base" required>
+            <div class="error-message" id="emailError"></div>
+          </div>
+
+          <!-- Phone (Sign Up Only) -->
+          <div id="phoneField" class="relative hidden">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <input type="tel" id="phone" placeholder="Phone Number"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <div class="error-message" id="phoneError"></div>
+          </div>
+
+          <!-- Password -->
+          <div class="relative">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="password" placeholder="Password"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base" required>
+            <button type="button" onclick="togglePassword()"
+              class="absolute right-5 top-4 text-neutral-400 hover:text-cyan-400 transition">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <div class="error-message" id="passwordError"></div>
+          </div>
+
+          <!-- Confirm Password (Sign Up Only) -->
+          <div id="confirmField" class="relative hidden">
+            <div class="absolute left-5 top-4 text-neutral-400">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-12 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <button type="button" onclick="toggleConfirmPassword()"
+              class="absolute right-5 top-4 text-neutral-400 hover:text-cyan-400 transition">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <div class="error-message" id="confirmError"></div>
+          </div>
+
+          <!-- Recovery Hint (Sign Up Only) -->
+          <div id="recoveryField" class="hidden">
+            <input type="text" id="recoveryHint" maxlength="20" placeholder="Recovery Hint"
+              class="input-glow w-full bg-neutral-800 border border-neutral-700 focus:border-cyan-400 rounded-2xl px-5 py-4 text-white placeholder:text-neutral-500 focus:outline-none text-base">
+            <p class="text-xs text-neutral-400 mt-2 px-1">
+              This hint will help you recover your password
+            </p>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submitBtn" class="neon-button w-full bg-gradient-to-r from-cyan-500 to-green-600 dark:to-blue-600 text-white py-5 rounded-3xl font-semibold text-lg tracking-widest glow-cyan hover:scale-[1.03] active:scale-[0.98]">
+            CREATE ACCOUNT
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 my-8">
+          <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent"></div>
+          <span class="text-neutral-500 text-sm font-medium">OR</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent"></div>
+        </div>
+
+        <!-- Social Login -->
+        <div class="flex justify-center gap-6">
+          <button type="button" class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl text-white glow-purple">
+            𝕏
+          </button>
+          <button type="button" class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl text-blue-400">
+            f
+          </button>
+          <button type="button" class="w-12 h-12 bg-neutral-800 hover:bg-neutral-700 transition-colors rounded-2xl flex items-center justify-center text-2xl text-pink-500">
+            G
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <script src="../js/components/footer.js"></script>
+
+<script src="../js/auth.js"></script>
+  <script>
+  // ===== API Configuration =====
+  // Redirect if already logged in
+  window.addEventListener('load', () => {
+    if (auth.isLoggedIn()) {
+      console.log('⚠️ User already logged in, redirecting to home...');
+      window.location.href = '../index.html';
+    }
+  });
+  // Change this based on your setup
+  const API_URL = 'http://localhost:3000';
+  
+  console.log('🌐 API URL:', API_URL);
+
+  // DOM Elements
+  const loginTab = document.getElementById('loginTab');
+  const signupTab = document.getElementById('signupTab');
+  const authForm = document.getElementById('authForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const phoneField = document.getElementById('phoneField');
+  const confirmField = document.getElementById('confirmField');
+  const recoveryField = document.getElementById('recoveryField');
+  const messageBox = document.getElementById('messageBox');
+  const messageText = document.getElementById('messageText');
+
+  let isSignupMode = true;
+
+  // ===== Tab Switching =====
+  function switchToLogin() {
+    isSignupMode = false;
+    phoneField.classList.add('hidden');
+    confirmField.classList.add('hidden');
+    recoveryField.classList.add('hidden');
+    submitBtn.textContent = 'SIGN IN';
+    loginTab.classList.add('active');
+    signupTab.classList.remove('active');
+    authForm.reset();
+    clearErrors();
+  }
+
+  function switchToSignup() {
+    isSignupMode = true;
+    phoneField.classList.remove('hidden');
+    confirmField.classList.remove('hidden');
+    recoveryField.classList.remove('hidden');
+    submitBtn.textContent = 'CREATE ACCOUNT';
+    signupTab.classList.add('active');
+    loginTab.classList.remove('active');
+    authForm.reset();
+    clearErrors();
+  }
+
+  loginTab.addEventListener('click', switchToLogin);
+  signupTab.addEventListener('click', switchToSignup);
+
+  // ===== Password Visibility =====
+  function togglePassword() {
+    const pwd = document.getElementById('password');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  }
+
+  function toggleConfirmPassword() {
+    const pwd = document.getElementById('confirmPassword');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  }
+
+  // ===== Validation =====
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+  }
+
+  function showError(fieldId, message) {
+    const errorEl = document.getElementById(fieldId + 'Error');
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+  }
+
+  function validateForm() {
+    clearErrors();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email) {
+      showError('email', 'Email is required');
+      return false;
+    }
+    if (!validateEmail(email)) {
+      showError('email', 'Invalid email format');
+      return false;
+    }
+
+    if (!password) {
+      showError('password', 'Password is required');
+      return false;
+    }
+    if (password.length < 6) {
+      showError('password', 'Password must be at least 6 characters');
+      return false;
+    }
+
+    if (isSignupMode) {
+      const phone = document.getElementById('phone').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const recoveryHint = document.getElementById('recoveryHint').value.trim();
+
+      if (!phone) {
+        showError('phone', 'Phone is required');
+        return false;
+      }
+
+      if (!confirmPassword) {
+        showError('confirm', 'Please confirm password');
+        return false;
+      }
+      if (password !== confirmPassword) {
+        showError('confirm', 'Passwords do not match');
+        return false;
+      }
+
+      if (!recoveryHint) {
+        showError('recovery', 'Recovery hint is required');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // ===== Form Submission =====
+  authForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    console.log('📝 Form submitted');
+
+    if (!validateForm()) {
+      console.log('❌ Form validation failed');
+      return;
+    }
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const originalText = submitBtn.textContent;
+
+    // Processing state
+    submitBtn.classList.add('processing');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <span class="inline-flex items-center gap-3">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        PROCESSING...
+      </span>
+    `;
+
+    try {
+      if (isSignupMode) {
+        console.log('🔵 Starting signup...');
+        await handleSignup(email, password);
+      } else {
+        console.log('🔵 Starting login...');
+        await handleLogin(email, password);
+      }
+    } catch (error) {
+      console.error('❌ Error:', error);
+      showMessage('❌ ' + error.message, 'error');
+      submitBtn.classList.remove('processing');
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+
+  // ===== Sign Up Handler =====
+  async function handleSignup(email, password) {
+    const phone = document.getElementById('phone').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const recoveryHint = document.getElementById('recoveryHint').value.trim();
+
+    const payload = {
+      email: email,
+      phone: phone,
+      password: password,
+      confirmPassword: confirmPassword,
+      recoveryHint: recoveryHint
+    };
+
+    console.log('📤 Sending signup request to:', API_URL + '/api/signup');
+    console.log('📦 Payload:', payload);
+
+    try {
+      const response = await fetch(`${API_URL}/api/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      console.log('📥 Response status:', response.status);
+
+      const data = await response.json();
+      console.log('📥 Response data:', data);
+
+      if (data.success) {
+        showMessage('✅ Account created successfully!', 'success');
+        submitBtn.classList.add('success');
+        
+        localStorage.setItem('dolnow_currentUser', email);
+        
+        setTimeout(() => {
+          console.log('🔄 Redirecting to home...');
+          window.location.href = '../index.html';
+        }, 1500);
+      } else {
+        console.log('❌ Server error:', data.message);
+        showMessage('❌ ' + data.message, 'error');
+        submitBtn.classList.remove('processing');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'CREATE ACCOUNT';
+      }
+    } catch (error) {
+      console.error('❌ Fetch error:', error);
+      console.error('Error details:', error.message);
+      throw new Error('Network error: ' + error.message);
+    }
+  }
+
+  // ===== Sign In Handler =====
+  async function handleLogin(email, password) {
+    const payload = {
+      email: email,
+      password: password
+    };
+
+    console.log('📤 Sending login request to:', API_URL + '/api/login');
+    console.log('📦 Payload:', payload);
+
+    try {
+      const response = await fetch(`${API_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      console.log('📥 Response status:', response.status);
+
+      const data = await response.json();
+      console.log('📥 Response data:', data);
+
+      if (data.success) {
+        showMessage('✅ Login successful!', 'success');
+        submitBtn.classList.add('success');
+        
+        localStorage.setItem('dolnow_currentUser', email);
+        
+        setTimeout(() => {
+          console.log('🔄 Redirecting to home...');
+          window.location.href = '../index.html';
+        }, 1500);
+      } else {
+        console.log('❌ Server error:', data.message);
+        showMessage('❌ ' + data.message, 'error');
+        submitBtn.classList.remove('processing');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'SIGN IN';
+      }
+    } catch (error) {
+      console.error('❌ Fetch error:', error);
+      console.error('Error details:', error.message);
+      throw new Error('Network error: ' + error.message);
+    }
+  }
+
+  // ===== Show Message =====
+  function showMessage(text, type) {
+    messageText.textContent = text;
+    messageBox.className = `mb-4 p-4 rounded-lg text-center ${
+      type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+    }`;
+    messageBox.classList.remove('hidden');
+
+    setTimeout(() => {
+      messageBox.classList.add('hidden');
+    }, 3000);
+  }
+
+  // ===== Initialize =====
+  switchToSignup();
+
+  // Check if already logged in
+  window.addEventListener('load', () => {
+    const currentUser = localStorage.getItem('dolnow_currentUser');
+    if (currentUser) {
+      console.log('✅ User already logged in:', currentUser);
+      window.location.href = '../index.html';
+    }
+  });
+
+  // Test the API connection on page load
+  console.log('🧪 Testing API connection...');
+  fetch(`${API_URL}/api/test`)
+    .then(res => res.json())
+    .then(data => console.log('✅ API is reachable:', data))
+    .catch(err => console.error('❌ API is NOT reachable:', err));
+</script>
+
+</body>
+
+</html>

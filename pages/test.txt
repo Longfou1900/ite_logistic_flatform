@@ -1,0 +1,98 @@
+<!-- Testing Signup inspact console browser -->
+ JSON.parse(localStorage.getItem('dolnow_users'))
+
+{foufou9173@gmail.com: {…}}
+foufou9173@gmail.com
+: 
+createdAt
+: 
+"2026-04-19T19:56:59.517Z"
+email
+: 
+"foufou9173@gmail.com"
+password
+: 
+"123456789"
+phone
+: 
+"0987654321"
+recoveryHint
+: 
+"1111"
+
+------------------------------------------
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+$ curl -X POST http://localhost:3000/api/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email":"test@example.com",
+    "phone":"+855123456789",
+    "password":"test123",
+    "confirmPassword":"test123",
+    "recoveryHint":"pets"
+  }'
+{"success":true,"message":"Account created successfully","user":{"id":1,"email":"test@example.com","phone":"+855123456789"}}
+
+--------------------------------------------
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+$ npm init -y
+Wrote to D:\ISTAD\ITE3rd\ite_logistic_flatform\package.json:
+
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.2"
+  },
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "name": "ite_logistic_flatform",
+  "version": "1.0.0",
+  "description": "Excellent choice! A Logistics Platform has great potential for animations, interactive features, and scoring well. Let me guide you through building this from scratch.",
+  "main": "tailwind.config.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+
+
+
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+$ npm install express cors body-parser fs-extra
+
+added 70 packages, and audited 98 packages in 6s
+
+29 packages are looking for funding
+added 70 packages, and audited 98 packages in 6s
+
+29 packages are looking for funding
+29 packages are looking for funding
+  run `npm fund` for details
+
+
+found 0 vulnerabilities
+found 0 vulnerabilities
+
+
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+$ npm install
+
+up to date, audited 98 packages in 903ms
+
+29 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+USER@DESKTOP-M1TVSAR MINGW64 /d/ISTAD/ITE3rd/ite_logistic_flatform (fou)
+$ node server.js
+� Server running at http://localhost:3000
+� Data stored in: D:\ISTAD\ITE3rd\ite_logistic_flatform\data\data.json
+Error reading data: SyntaxError: D:\ISTAD\ITE3rd\ite_logistic_flatform\data\data.json: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at Object._readFile (D:\ISTAD\ITE3rd\ite_logistic_flatform\node_modules\jsonfile\index.js:25:16)
+    at async readData (D:\ISTAD\ITE3rd\ite_logistic_flatform\server.js:28:12)
+    at async D:\ISTAD\ITE3rd\ite_logistic_flatform\server.js:77:18

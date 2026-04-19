@@ -1,9 +1,20 @@
 {
   "dependencies": {
     "@tailwindcss/cli": "^4.2.2",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "fs-extra": "^11.3.4",
     "tailwindcss": "^4.2.2"
   },
   "scripts": {
     "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
-  }
+  },
+  "name": "ite_logistic_flatform",
+  "version": "1.0.0",
+  "description": "Excellent choice! A Logistics Platform has great potential for animations, interactive features, and scoring well. Let me guide you through building this from scratch.",
+  "main": "tailwind.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

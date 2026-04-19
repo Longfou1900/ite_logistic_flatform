@@ -21,8 +21,15 @@
       document.documentElement.classList.add('dark');
     }
   </script>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
   <link rel="stylesheet" href="./src/output.css">
+
+  <style>
+    .logout-btn:hover {
+      transform: scale(1.05);
+      transition: all 0.3s ease;
+    }
+  </style>
 </head>
 
 <body class="bg-white dark:bg-neutral-950 transition-colors duration-300">
@@ -30,45 +37,61 @@
   <!-- Navbar -->
   <script src="./js/components/navbar.js"></script>
 
-  <!-- SECTION 1: Hero Banner -->
-<section id="home" class="relative min-h-screen flex items-center">
-  
-  <div class="absolute inset-0 z-0 overflow-hidden">
-    <video autoplay muted loop playsinline class="w-full h-full object-cover">
-      <source src="./images/video/vecteezy_3d-footage-hud-wireframe-truck-isolated-on-the-blue_67751525.mp4" type="video/mp4">
-    </video>
-    <div class="absolute inset-0 bg-neutral-950/40 dark:bg-neutral-950/60"></div>
-  </div>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 w-full">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-      <div class="animate-slide-in">
-        <h1 class="text-5xl md:text-7xl font-bold font-display text-white mb-6 leading-tight">
-          Smart Logistics <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Solutions</span>
-        </h1>
-        <p class="text-lg text-gray-100 dark:text-gray-200 mb-8 leading-relaxed">
-          Optimize your supply chain with real-time tracking, intelligent warehousing, and seamless
-          delivery management across Southeast Asia.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <button onclick="window.location.href='./pages/tracking.html'"
-            class="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
-            Track Shipment
-          </button>
-          <button
-            class="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
-            Get Started
-          </button>
-        </div>
+  <!-- User Info Bar -->
+  <div id="userInfoBar"
+    class="hidden bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-4 fixed top-16 w-full z-40 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <span class="text-sm">👤 Logged in as: <strong id="userEmail" class="text-lg"></strong></span>
       </div>
-
-      <div class="hidden md:block">
-        </div>
-      
+      <button id="logoutBtn" onclick="performLogout(); return false;""
+        class="logout-btn px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition font-semibold flex items-center gap-2">
+        <i class="fa-solid fa-sign-out-alt"></i> Logout
+      </button>
     </div>
   </div>
-</section>
+
+  <!-- main -->
+  <!-- SECTION 1: Hero Banner -->
+  <section id="home" class="relative min-h-screen flex items-center">
+
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover">
+        <source src="./images/video/004.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-neutral-950/40 dark:bg-neutral-950/60"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+        <div class="animate-slide-in">
+          <h1 class="text-5xl md:text-7xl font-bold font-display text-white mb-6 leading-tight">
+            Smart Logistics <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Solutions</span>
+          </h1>
+          <p class="text-lg text-gray-100 dark:text-gray-200 mb-8 leading-relaxed">
+            Optimize your supply chain with real-time tracking, intelligent warehousing, and seamless
+            delivery management across Southeast Asia.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button onclick="window.location.href='./pages/tracking.html'"
+              class="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+              Track Shipment
+            </button>
+            <button
+              class="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
+              Get Started
+            </button>
+          </div>
+        </div>
+
+        <div class="hidden md:block">
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- SECTION 2: Services Overview -->
   <section class="py-20 bg-white dark:bg-neutral-900">
@@ -147,7 +170,7 @@
   </section>
 
   <!-- SECTION 3: Why Choose Us (Stats) -->
-  <section class="py-20 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10">
+  <section class="py-20 bg-linear-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold font-display text-neutral-900 dark:text-white mb-4">
@@ -198,8 +221,111 @@
   <!-- Footer -->
   <script src="./js/components/footer.js"></script>
 
-  <!-- Dark Mode -->
-  <!-- <script src="./js/dark-mode.js"></script> -->
+  <!-- ===== User Authentication Script ===== -->
+<script src="./js/auth.js"></script>
+
+<script>
+  console.log('🔍 Home page loading...');
+
+  const userInfoBar = document.getElementById('userInfoBar');
+  const userEmail = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // When page loads
+  window.addEventListener('DOMContentLoaded', async () => {
+    console.log('📋 DOM loaded - Initializing auth UI...');
+
+    if (auth.isLoggedIn()) {
+      console.log('✅ User is logged in:', auth.getCurrentUser());
+
+      // Show user info
+      userInfoBar.classList.remove('hidden');
+      userEmail.textContent = auth.getCurrentUser();
+
+      // Fetch user details
+      const userDetails = await auth.fetchUser();
+      if (userDetails) {
+        console.log('📊 User details:', userDetails);
+      }
+
+      // Setup logout button
+      setupLogout();
+    } else {
+      console.log('❌ No user logged in');
+      userInfoBar.classList.add('hidden');
+    }
+  });
+
+  // ===== Setup Logout - Simple and Direct =====
+  function setupLogout() {
+    console.log('🔧 Setting up logout...');
+    
+    if (!logoutBtn) {
+      console.error('❌ Logout button not found!');
+      return;
+    }
+
+    // Remove any existing listeners
+    logoutBtn.onclick = null;
+
+    // Add direct onclick handler
+    logoutBtn.onclick = function(e) {
+      console.log('🔴 Logout button clicked!');
+      e.preventDefault();
+      e.stopPropagation();
+      performLogout();
+      return false;
+    };
+
+    console.log('✅ Logout button is ready');
+  }
+
+  // ===== Perform Logout =====
+  function performLogout() {
+    console.log('🔴 Starting logout process...');
+
+    // Confirm logout
+    const confirmed = confirm('Are you sure you want to logout?');
+    
+    if (!confirmed) {
+      console.log('❌ Logout cancelled by user');
+      return;
+    }
+
+    console.log('✅ Logout confirmed');
+
+    // Show message
+    showLogoutMessage();
+
+    // Wait and logout
+    setTimeout(() => {
+      console.log('🔄 Clearing data and redirecting...');
+      
+      // Clear localStorage
+      localStorage.removeItem('dolnow_currentUser');
+      console.log('✅ LocalStorage cleared');
+      
+      // Redirect to auth page
+      console.log('🔄 Redirecting to auth page...');
+      window.location.href = './pages/auth.html';
+    }, 1000);
+  }
+
+  // ===== Show Logout Message =====
+  function showLogoutMessage() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-bounce';
+    messageDiv.innerHTML = '<i class="fa-solid fa-check-circle"></i> Logging out...';
+    
+    document.body.appendChild(messageDiv);
+    
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 2000);
+  }
+
+  console.log('✅ Auth script loaded');
+</script>
 </body>
 
 </html>

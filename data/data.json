@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "phone": "+855123456789",
+      "password": "test123",
+      "recoveryHint": "pets",
+      "createdAt": "2026-04-19T20:12:05.629Z"
+    }
+  ]
+}
