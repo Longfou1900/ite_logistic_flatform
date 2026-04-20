@@ -24,22 +24,22 @@ app.use(express.static('./'));
 // ===== Data File Path - Changed to js/data.json =====
 const dataFilePath = path.join(__dirname, 'js', 'data.json');
 
-console.log(`📁 Data file path: ${dataFilePath}`);
+console.log(`Data file path: ${dataFilePath}`);
 
 // ===== Helper Functions =====
 
 async function readData() {
   try {
     if (!await fs.pathExists(dataFilePath)) {
-      console.log('📝 Creating new data.json in js folder...');
+      console.log('Creating new data.json in js folder...');
       await fs.ensureFile(dataFilePath);
       await fs.writeJSON(dataFilePath, { users: [] });
     }
     const data = await fs.readJSON(dataFilePath);
-    console.log(`✅ Read ${data.users.length} users from database`);
+    console.log(`Read ${data.users.length} users from database`);
     return data;
   } catch (error) {
-    console.error('❌ Error reading data:', error);
+    console.error('x Error reading data:', error);
     return { users: [] };
   }
 }
@@ -48,32 +48,32 @@ async function writeData(data) {
   try {
     await fs.ensureDir(path.dirname(dataFilePath));
     await fs.writeJSON(dataFilePath, data, { spaces: 2 });
-    console.log(`✅ Data saved! Total users: ${data.users.length}`);
+    console.log(`Data saved! Total users: ${data.users.length}`);
     console.log(`📄 File: ${dataFilePath}`);
     return true;
   } catch (error) {
-    console.error('❌ Error writing data:', error);
+    console.error('x Error writing data:', error);
     return false;
   }
 }
 
 // ===== Test Route =====
 app.get('/api/test', (req, res) => {
-  console.log('✅ Test endpoint hit');
+  console.log('Test endpoint hit');
   res.json({ success: true, message: 'Backend is working!' });
 });
 
 // ===== Sign Up =====
 app.post('/api/signup', async (req, res) => {
   try {
-    console.log('🔵 [SIGNUP] Request received');
+    console.log('[SIGNUP] Request received');
     console.log('📦 Data:', req.body);
 
     const { email, phone, password, confirmPassword, recoveryHint } = req.body;
 
     // Validation
     if (!email || !phone || !password || !recoveryHint) {
-      console.log('❌ Missing required fields');
+      console.log('x Missing required fields');
       return res.status(400).json({
         success: false,
         message: 'All fields are required'
@@ -81,7 +81,7 @@ app.post('/api/signup', async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      console.log('❌ Passwords do not match');
+      console.log('x Passwords do not match');
       return res.status(400).json({
         success: false,
         message: 'Passwords do not match'
@@ -89,7 +89,7 @@ app.post('/api/signup', async (req, res) => {
     }
 
     if (password.length < 6) {
-      console.log('❌ Password too short');
+      console.log('x Password too short');
       return res.status(400).json({
         success: false,
         message: 'Password must be at least 6 characters'
@@ -102,7 +102,7 @@ app.post('/api/signup', async (req, res) => {
     // Check if user exists
     const userExists = data.users.some(user => user.email === email);
     if (userExists) {
-      console.log('❌ User already exists:', email);
+      console.log('x User already exists:', email);
       return res.status(409).json({
         success: false,
         message: 'Email already registered'
@@ -119,14 +119,14 @@ app.post('/api/signup', async (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    console.log('✅ Creating new user:', newUser.email);
+    console.log('Creating new user:', newUser.email);
     data.users.push(newUser);
 
     // Write to file
     const success = await writeData(data);
 
     if (success) {
-      console.log('✅ [SIGNUP SUCCESS] User created:', email);
+      console.log('[SIGNUP SUCCESS] User created:', email);
       return res.status(201).json({
         success: true,
         message: 'Account created successfully',
@@ -137,7 +137,7 @@ app.post('/api/signup', async (req, res) => {
         }
       });
     } else {
-      console.log('❌ [SIGNUP ERROR] Failed to save user');
+      console.log('x [SIGNUP ERROR] Failed to save user');
       return res.status(500).json({
         success: false,
         message: 'Error saving user data'
@@ -145,7 +145,7 @@ app.post('/api/signup', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('❌ [SIGNUP ERROR]', error);
+    console.error('x [SIGNUP ERROR]', error);
     res.status(500).json({
       success: false,
       message: 'Server error: ' + error.message
@@ -156,8 +156,8 @@ app.post('/api/signup', async (req, res) => {
 // ===== Login =====
 app.post('/api/login', async (req, res) => {
   try {
-    console.log('🔵 [LOGIN] Request received');
-    console.log('📦 Data:', req.body);
+    console.log(' [LOGIN] Request received');
+    console.log(' Data:', req.body);
 
     const { email, password } = req.body;
 
@@ -172,7 +172,7 @@ app.post('/api/login', async (req, res) => {
     const user = data.users.find(u => u.email === email);
 
     if (!user) {
-      console.log('❌ User not found:', email);
+      console.log('x User not found:', email);
       return res.status(401).json({
         success: false,
         message: 'Email not found'
@@ -180,14 +180,14 @@ app.post('/api/login', async (req, res) => {
     }
 
     if (user.password !== password) {
-      console.log('❌ Wrong password for user:', email);
+      console.log('x Wrong password for user:', email);
       return res.status(401).json({
         success: false,
         message: 'Incorrect password'
       });
     }
 
-    console.log('✅ [LOGIN SUCCESS]', email);
+    console.log('[LOGIN SUCCESS]', email);
     return res.status(200).json({
       success: true,
       message: 'Login successful',
@@ -200,7 +200,7 @@ app.post('/api/login', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ [LOGIN ERROR]', error);
+    console.error('x [LOGIN ERROR]', error);
     res.status(500).json({
       success: false,
       message: 'Server error: ' + error.message
@@ -211,7 +211,7 @@ app.post('/api/login', async (req, res) => {
 // ===== Get All Users =====
 app.get('/api/users', async (req, res) => {
   try {
-    console.log('🔵 [GET USERS] Request received');
+    console.log('[GET USERS] Request received');
     const data = await readData();
     res.json({
       success: true,
@@ -296,8 +296,8 @@ app.delete('/api/user/:email', async (req, res) => {
 // ===== Start Server =====
 app.listen(PORT, () => {
   console.log('\n========================================');
-  console.log(`🚀 DolNow Backend Server Running!`);
-  console.log(`📍 URL: http://localhost:${PORT}`);
-  console.log(`📁 Data: ${dataFilePath}`);
+  console.log(` DolNow Backend Server Running!`);
+  console.log(` URL: http://localhost:${PORT}`);
+  console.log(` Data: ${dataFilePath}`);
   console.log('========================================\n');
 });

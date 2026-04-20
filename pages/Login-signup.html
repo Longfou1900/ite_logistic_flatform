@@ -279,92 +279,130 @@
   <!-- Footer -->
   <script src="../js/components/footer.js"></script>
 
-  <!-- Add Firebase SDK
-  <script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js"></script>
+  <!-- Add Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 
   <script>
-    // Firebase config (get from Firebase Console)
-  const firebaseConfig = {
-    apiKey: "AIzaSyBHwcwOqsVkSu2Uk5Y6ZaDgsYeEgdd4yyg",
-    authDomain: "dolnow-f9822.firebaseapp.com",
-    projectId: "dolnow-f9822",
-    storageBucket: "dolnow-f9822.firebasestorage.app",
-    messagingSenderId: "1023250924037",
-    appId: "1:1023250924037:web:ab9ae4388b9c7681f6d26c"
-  };
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHwcwOqsVkSu2Uk5Y6ZaDgsYeEgdd4yyg",
+      authDomain: "dolnow-f9822.firebaseapp.com",
+      projectId: "dolnow-f9822",
+      storageBucket: "dolnow-f9822.firebasestorage.app",
+      messagingSenderId: "1023250924037",
+      appId: "1:1023250924037:web:ab9ae4388b9c7681f6d26c"
+    };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-  // ===== Sign Up with Firebase =====
-  function handleSignupFirebase(email, password) {
-    const phone = document.getElementById('phone').value.trim();
-    const recoveryHint = document.getElementById('recoveryHint').value.trim();
+    console.log('🔥 Firebase initialized');
 
-    // Check if user exists
-    database.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        showMessage('❌ Email already registered!', 'error');
-        return;
-      }
+    // ===== Sign Up with Firebase =====
+    function handleSignupFirebase(email, password, originalText) {
+      console.log('📝 handleSignupFirebase called with:', email);
 
-      // Create new user
-      const newUser = {
-        email: email,
-        phone: phone,
-        password: password,
-        recoveryHint: recoveryHint,
-        createdAt: new Date().toISOString()
-      };
+      const phone = document.getElementById('phone').value.trim();
+      const recoveryHint = document.getElementById('recoveryHint').value.trim();
 
-      // Save to Firebase
-      const userId = database.ref('users').push().key;
-      database.ref('users/' + userId).set(newUser, (error) => {
-        if (error) {
-          console.log('❌ Error:', error);
-          showMessage('❌ Error creating account!', 'error');
-        } else {
-          console.log('✅ Account created successfully!');
-          showMessage('✅ Account created successfully!', 'success');
-          
-          localStorage.setItem('dolnow_currentUser', email);
-          setTimeout(() => {
-            window.location.href = '../index.html';
-          }, 1500);
+      console.log('🔍 Checking if email already exists...');
+
+      // Check if user exists
+      database.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          console.log('   Email already registered');
+          showMessage('   Email already registered!', 'error');
+          resetButton(originalText);
+          return;
         }
+
+        console.log('   Email is available, creating user...');
+
+        // Create new user
+        const newUser = {
+          email: email,
+          phone: phone,
+          password: password,
+          recoveryHint: recoveryHint,
+          createdAt: new Date().toISOString()
+        };
+
+        // Save to Firebase
+        const userId = database.ref('users').push().key;
+        console.log('📤 Saving to Firebase with ID:', userId);
+
+        database.ref('users/' + userId).set(newUser, (error) => {
+          if (error) {
+            console.log('   Error saving user:', error);
+            console.log('   Error code:', error.code);
+            console.log('   Error message:', error.message);
+            showMessage('   Error creating account! ' + error.message, 'error');
+            resetButton(originalText);
+          } else {
+            console.log('   User saved successfully!');
+            showMessage('   Account created successfully!', 'success');
+            submitBtn.classList.add('success');
+
+            localStorage.setItem('dolnow_currentUser', email);
+
+            setTimeout(() => {
+              console.log('🔄 Redirecting to home...');
+              window.location.href = '../index.html';
+            }, 1500);
+          }
+        });
+      }, (error) => {
+        console.log('   Database query error:', error);
+        showMessage('   Database error: ' + error.message, 'error');
+        resetButton(originalText);
       });
-    });
-  }
+    }
 
-  // ===== Login with Firebase =====
-  function handleLoginFirebase(email, password) {
-    database.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
-      if (!snapshot.exists()) {
-        showMessage('❌ Email not found!', 'error');
-        return;
-      }
+    // ===== Login with Firebase =====
+    function handleLoginFirebase(email, password, originalText) {
+      console.log('📝 handleLoginFirebase called with:', email);
 
-      const users = snapshot.val();
-      const user = Object.values(users)[0];
+      database.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+        if (!snapshot.exists()) {
+          console.log('   Email not found');
+          showMessage('   Email not found!', 'error');
+          resetButton(originalText);
+          return;
+        }
 
-      if (user.password !== password) {
-        showMessage('❌ Incorrect password!', 'error');
-        return;
-      }
+        console.log('   Email found, checking password...');
 
-      console.log('✅ Login successful!');
-      showMessage('✅ Login successful!', 'success');
-      
-      localStorage.setItem('dolnow_currentUser', email);
-      setTimeout(() => {
-        window.location.href = '../index.html';
-      }, 1500);
-    });
-  } -->
+        const users = snapshot.val();
+        const user = Object.values(users)[0];
 
-  <script>
+        if (user.password !== password) {
+          console.log('   Incorrect password');
+          showMessage('   Incorrect password!', 'error');
+          resetButton(originalText);
+          return;
+        }
+
+        console.log('   Login successful!');
+        showMessage('   Login successful!', 'success');
+        submitBtn.classList.add('success');
+
+        localStorage.setItem('dolnow_currentUser', email);
+
+        setTimeout(() => {
+          console.log('🔄 Redirecting to home...');
+          window.location.href = '../index.html';
+        }, 1500);
+      }, (error) => {
+        console.log('   Database query error:', error);
+        showMessage('   Database error: ' + error.message, 'error');
+        resetButton(originalText);
+      });
+    }
+  </script>
+
+<script>
     // ===== DOM Elements =====
     const loginTab = document.getElementById('loginTab');
     const signupTab = document.getElementById('signupTab');
@@ -377,6 +415,7 @@
     const messageText = document.getElementById('messageText');
 
     let isSignupMode = true;
+    let isProcessing = false; // Add processing flag
 
     // ===== Tab Switching =====
     function switchToLogin() {
@@ -493,11 +532,20 @@
       return true;
     }
 
+    // ===== Reset Button =====
+    function resetButton(text) {
+      submitBtn.classList.remove('processing');
+      submitBtn.disabled = false;
+      submitBtn.textContent = text;
+      isProcessing = false;
+    }
+
     // ===== Show Message =====
     function showMessage(text, type) {
       messageText.textContent = text;
-      messageBox.className = `mb-4 p-4 rounded-lg text-center ${type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
-        }`;
+      messageBox.className = `mb-4 p-4 rounded-lg text-center ${
+        type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+      }`;
       messageBox.classList.remove('hidden');
 
       setTimeout(() => {
@@ -505,13 +553,19 @@
       }, 3000);
     }
 
-    // ===== Form Submission - CALLS FIREBASE =====
+    // ===== Form Submission =====
     authForm.addEventListener('submit', function (e) {
       e.preventDefault();
       console.log('📝 Form submitted');
 
+      // Prevent double submission
+      if (isProcessing) {
+        console.log('⚠️ Already processing, please wait...');
+        return;
+      }
+
       if (!validateForm()) {
-        console.log('❌ Form validation failed');
+        console.log('   Form validation failed');
         return;
       }
 
@@ -520,30 +574,35 @@
       const originalText = submitBtn.textContent;
 
       // Processing state
+      isProcessing = true;
       submitBtn.classList.add('processing');
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
-      <span class="inline-flex items-center gap-3">
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        PROCESSING...
-      </span>
-    `;
+        <span class="inline-flex items-center gap-3">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          PROCESSING...
+        </span>
+      `;
 
+      console.log('⏳ Processing started, waiting for Firebase...');
+
+      // Call Firebase functions directly (don't wait for setTimeout)
+      if (isSignupMode) {
+        console.log('🔵 Starting Firebase signup...');
+        handleSignupFirebase(email, password, originalText);
+      } else {
+        console.log('🔵 Starting Firebase login...');
+        handleLoginFirebase(email, password, originalText);
+      }
+
+      // Add timeout check - if no response after 10 seconds, show error
       setTimeout(() => {
-        // ✅ Call Firebase functions instead of localStorage
-        if (isSignupMode) {
-          console.log('🔵 Starting Firebase signup...');
-          handleSignupFirebase(email, password);
-        } else {
-          console.log('🔵 Starting Firebase login...');
-          handleLoginFirebase(email, password);
+        if (isProcessing) {
+          console.log('   Timeout: Firebase took too long');
+          showMessage('   Request timeout. Please check your internet connection.', 'error');
+          resetButton(originalText);
         }
-
-        // Reset button
-        submitBtn.classList.remove('processing');
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-      }, 1500);
+      }, 10000);
     });
 
     // ===== Initialize =====
@@ -553,14 +612,13 @@
     window.addEventListener('load', () => {
       const currentUser = localStorage.getItem('dolnow_currentUser');
       if (currentUser) {
-        console.log('✅ User already logged in:', currentUser);
+        console.log('   User already logged in:', currentUser);
         window.location.href = '../index.html';
       }
     });
 
-    console.log('✅ Firebase auth script loaded');
+    console.log('   Firebase auth script loaded');
   </script>
-
 </body>
 
 </html>
