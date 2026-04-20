@@ -280,8 +280,8 @@
   <script src="../js/components/footer.js"></script>
 
   <!-- Add Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <script>
     // Firebase config
@@ -292,6 +292,7 @@
       storageBucket: "dolnow-f9822.firebasestorage.app",
       messagingSenderId: "1023250924037",
       appId: "1:1023250924037:web:ab9ae4388b9c7681f6d26c"
+
     };
 
     // Initialize Firebase
@@ -310,7 +311,7 @@
       console.log('🔍 Checking if email already exists...');
 
       // Check if user exists
-      database.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+      database.ref('users').orderByChild('email').equalTo(email).once('value').then((snapshot) => {
         if (snapshot.exists()) {
           console.log('   Email already registered');
           showMessage('   Email already registered!', 'error');
@@ -344,6 +345,9 @@
             console.log('   User saved successfully!');
             showMessage('   Account created successfully!', 'success');
             submitBtn.classList.add('success');
+
+            resetButton(originalText);
+            isProcessing = false;
 
             localStorage.setItem('dolnow_currentUser', email);
 
@@ -388,6 +392,9 @@
         showMessage('   Login successful!', 'success');
         submitBtn.classList.add('success');
 
+        resetButton(originalText);
+        isProcessing = false;
+
         localStorage.setItem('dolnow_currentUser', email);
 
         setTimeout(() => {
@@ -402,7 +409,7 @@
     }
   </script>
 
-<script>
+  <script>
     // ===== DOM Elements =====
     const loginTab = document.getElementById('loginTab');
     const signupTab = document.getElementById('signupTab');
@@ -543,9 +550,8 @@
     // ===== Show Message =====
     function showMessage(text, type) {
       messageText.textContent = text;
-      messageBox.className = `mb-4 p-4 rounded-lg text-center ${
-        type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
-      }`;
+      messageBox.className = `mb-4 p-4 rounded-lg text-center ${type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+        }`;
       messageBox.classList.remove('hidden');
 
       setTimeout(() => {
@@ -559,7 +565,7 @@
       console.log('📝 Form submitted');
 
       // Prevent double submission
-      if (isProcessing) {
+      if (isProcessing === true) {
         console.log('⚠️ Already processing, please wait...');
         return;
       }
